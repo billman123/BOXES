@@ -30,7 +30,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-
+/*
 #ifndef ROUNDEDBOX_H
 #define ROUNDEDBOX_H
 
@@ -62,3 +62,4 @@ public:
 
 
 #endif
+*/

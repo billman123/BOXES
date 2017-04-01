@@ -125,7 +125,7 @@ private:
     int m_angle; // angle in degrees
     int m_delta;
 };
-
+/*
 class RenderOptionsDialog : public QDialog
 {
     Q_OBJECT
@@ -135,7 +135,7 @@ public:
     int addShader(const QString &name);
     void emitParameterChanged();
 protected slots:
-    void setColorParameter(QRgb color, int id);
+    //void setColorParameter(QRgb color, int id);
     void setFloatParameter(float value, int id);
 signals:
     void dynamicCubemapToggled(int);
@@ -152,7 +152,7 @@ protected:
     QComboBox *m_shaderCombo;
     QVector<ParameterEdit *> m_parameterEdits;
 };
-
+*/
 class ItemDialog : public QDialog
 {
     Q_OBJECT
@@ -187,8 +187,8 @@ public slots:
     void setShader(int index);
     void setTexture(int index);
     void toggleDynamicCubemap(int state);
-    void setColorParameter(const QString &name, QRgb color);
-    void setFloatParameter(const QString &name, float value);
+   // void setColorParameter(const QString &name, QRgb color);
+    //void setFloatParameter(const QString &name, float value);
     void newItem(ItemDialog::ItemType type);
 protected:
     void renderBoxes(const QMatrix4x4 &view, int excludeBox = -2);
@@ -217,10 +217,10 @@ private:
     bool m_dynamicCubemap;
     bool m_updateAllCubemaps;
 
-    RenderOptionsDialog *m_renderOptions;
+    //RenderOptionsDialog *m_renderOptions;
     ItemDialog *m_itemDialog;
     QTimer *m_timer;
-    GLRoundedBox *m_box;
+//    GLRoundedBox *m_box;
     TrackBall m_trackBalls[3];
     QVector<GLTexture *> m_textures;
     GLTextureCube *m_environment;

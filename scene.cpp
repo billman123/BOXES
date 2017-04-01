@@ -268,7 +268,7 @@ void GraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     QGraphicsProxyWidget::paint(painter, option, widget);
     //painter->setRenderHint(QPainter::Antialiasing, true);
 }
-
+/*
 //============================================================================//
 //                             RenderOptionsDialog                            //
 //============================================================================//
@@ -277,7 +277,7 @@ RenderOptionsDialog::RenderOptionsDialog()
     : QDialog(0, Qt::CustomizeWindowHint | Qt::WindowTitleHint)
 {
     setWindowOpacity(0.75);
-    setWindowTitle(tr("Options (double click to flip)"));
+    setWindowTitle(tr("Options"));
     QGridLayout *layout = new QGridLayout;
     setLayout(layout);
     layout->setColumnStretch(1, 1);
@@ -402,7 +402,7 @@ void RenderOptionsDialog::mouseDoubleClickEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton)
         emit doubleClicked();
 }
-
+*/
 //============================================================================//
 //                                 ItemDialog                                 //
 //============================================================================//
@@ -410,7 +410,7 @@ void RenderOptionsDialog::mouseDoubleClickEvent(QMouseEvent *event)
 ItemDialog::ItemDialog()
     : QDialog(0, Qt::CustomizeWindowHint | Qt::WindowTitleHint)
 {
-    setWindowTitle(tr("Items (double click to flip)"));
+    setWindowTitle(tr("Items"));
     setWindowOpacity(0.75);
     resize(160, 100);
 
@@ -472,7 +472,7 @@ Scene::Scene(int width, int height, int maxTextureSize)
     , m_currentTexture(0)
     , m_dynamicCubemap(false)
     , m_updateAllCubemaps(true)
-    , m_box(0)
+  //  , m_box(0)
     , m_vertexShader(0)
     , m_environmentShader(0)
     , m_environmentProgram(0)
@@ -483,24 +483,24 @@ Scene::Scene(int width, int height, int maxTextureSize)
     m_trackBalls[1] = TrackBall(0.005f, QVector3D(0, 0, 1), TrackBall::Sphere);
     m_trackBalls[2] = TrackBall(0.0f, QVector3D(0, 1, 0), TrackBall::Plane);
 
-    m_renderOptions = new RenderOptionsDialog;
-    m_renderOptions->move(20, 120);
-    m_renderOptions->resize(m_renderOptions->sizeHint());
+ //   m_renderOptions = new RenderOptionsDialog;
+ //   m_renderOptions->move(20, 120);
+ //   m_renderOptions->resize(m_renderOptions->sizeHint());
 
-    connect(m_renderOptions, SIGNAL(dynamicCubemapToggled(int)), this, SLOT(toggleDynamicCubemap(int)));
-    connect(m_renderOptions, SIGNAL(colorParameterChanged(QString,QRgb)), this, SLOT(setColorParameter(QString,QRgb)));
-    connect(m_renderOptions, SIGNAL(floatParameterChanged(QString,float)), this, SLOT(setFloatParameter(QString,float)));
-    connect(m_renderOptions, SIGNAL(textureChanged(int)), this, SLOT(setTexture(int)));
-    connect(m_renderOptions, SIGNAL(shaderChanged(int)), this, SLOT(setShader(int)));
+ //   connect(m_renderOptions, SIGNAL(dynamicCubemapToggled(int)), this, SLOT(toggleDynamicCubemap(int)));
+ //   connect(m_renderOptions, SIGNAL(colorParameterChanged(QString,QRgb)), this, SLOT(setColorParameter(QString,QRgb)));
+ //   connect(m_renderOptions, SIGNAL(floatParameterChanged(QString,float)), this, SLOT(setFloatParameter(QString,float)));
+ //   connect(m_renderOptions, SIGNAL(textureChanged(int)), this, SLOT(setTexture(int)));
+ //   connect(m_renderOptions, SIGNAL(shaderChanged(int)), this, SLOT(setShader(int)));
 
     m_itemDialog = new ItemDialog;
     connect(m_itemDialog, SIGNAL(newItemTriggered(ItemDialog::ItemType)), this, SLOT(newItem(ItemDialog::ItemType)));
 
     TwoSidedGraphicsWidget *twoSided = new TwoSidedGraphicsWidget(this);
-    twoSided->setWidget(0, m_renderOptions);
-    twoSided->setWidget(1, m_itemDialog);
+  // twoSided->setWidget(0, m_renderOptions);
+    twoSided->setWidget(0, m_itemDialog);
 
-    connect(m_renderOptions, SIGNAL(doubleClicked()), twoSided, SLOT(flip()));
+  // connect(m_renderOptions, SIGNAL(doubleClicked()), twoSided, SLOT(flip()));
     connect(m_itemDialog, SIGNAL(doubleClicked()), twoSided, SLOT(flip()));
 
     addItem(new QtBox(64, width - 64, height - 64));
@@ -520,8 +520,8 @@ Scene::Scene(int width, int height, int maxTextureSize)
 
 Scene::~Scene()
 {
-    if (m_box)
-        delete m_box;
+ //   if (m_box)
+ //      delete m_box;
     foreach (GLTexture *texture, m_textures)
         if (texture) delete texture;
     if (m_mainCubemap)
@@ -542,7 +542,7 @@ Scene::~Scene()
 
 void Scene::initGL()
 {
-    m_box = new GLRoundedBox(0.25f, 1.0f, 10);
+    //m_box = new GLRoundedBox(0.25f, 1.0f, 10);
 
     m_vertexShader = new QGLShader(QGLShader::Vertex);
     m_vertexShader->compileSourceFile(QLatin1String(":/res/boxes/basic.vsh"));
@@ -597,7 +597,7 @@ void Scene::initGL()
             continue;
         }
         m_textures << texture;
-        m_renderOptions->addTexture(file.baseName());
+        //m_renderOptions->addTexture(file.baseName());
     }
 
     if (m_textures.size() == 0)
@@ -630,7 +630,7 @@ void Scene::initGL()
 
         m_fragmentShaders << shader;
         m_programs << program;
-        m_renderOptions->addShader(file.baseName());
+      //  m_renderOptions->addShader(file.baseName());
 
         program->bind();
         m_cubemaps << ((program->uniformLocation("env") != -1) ? new GLRenderTargetCube(qMin(256, m_maxTextureSize)) : 0);
@@ -640,7 +640,7 @@ void Scene::initGL()
     if (m_programs.size() == 0)
         m_programs << new QGLShaderProgram;
 
-    m_renderOptions->emitParameterChanged();
+  //  m_renderOptions->emitParameterChanged();
 }
 
 static void loadMatrix(const QMatrix4x4& m)
@@ -687,7 +687,7 @@ void Scene::renderBoxes(const QMatrix4x4 &view, int excludeBox)
         m_environmentProgram->setUniformValue("tex", GLint(0));
         m_environmentProgram->setUniformValue("env", GLint(1));
         m_environmentProgram->setUniformValue("noise", GLint(2));
-        m_box->draw();
+        //m_box->draw();
         m_environmentProgram->release();
         m_environment->unbind();
     }
@@ -722,7 +722,7 @@ void Scene::renderBoxes(const QMatrix4x4 &view, int excludeBox)
         m_programs[i]->setUniformValue("noise", GLint(2));
         m_programs[i]->setUniformValue("view", view);
         m_programs[i]->setUniformValue("invView", invView);
-        m_box->draw();
+        //m_box->draw();
         m_programs[i]->release();
 
         if (glActiveTexture) {
@@ -752,7 +752,7 @@ void Scene::renderBoxes(const QMatrix4x4 &view, int excludeBox)
         m_programs[m_currentShader]->setUniformValue("noise", GLint(2));
         m_programs[m_currentShader]->setUniformValue("view", view);
         m_programs[m_currentShader]->setUniformValue("invView", invView);
-        m_box->draw();
+        //m_box->draw();
         m_programs[m_currentShader]->release();
 
         if (glActiveTexture) {
@@ -1027,7 +1027,7 @@ void Scene::toggleDynamicCubemap(int state)
     if ((m_dynamicCubemap = (state == Qt::Checked)))
         m_updateAllCubemaps = true;
 }
-
+/*
 void Scene::setColorParameter(const QString &name, QRgb color)
 {
     // set the color in all programs
@@ -1047,7 +1047,7 @@ void Scene::setFloatParameter(const QString &name, float value)
         program->release();
     }
 }
-
+*/
 void Scene::newItem(ItemDialog::ItemType type)
 {
     QSize size = sceneRect().size().toSize();

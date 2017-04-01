@@ -30,7 +30,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-
+/*
 #include "roundedbox.h"
 
 //============================================================================//
@@ -94,6 +94,7 @@ GLRoundedBox::GLRoundedBox(float r, float scale, int n)
             ip[iidx++] = vidx + vertexCountPerCorner - 1 + offsX;
         }
 
+
         for (int i = 0; i < n + 2; ++i) {
 
             // Edge polygons
@@ -144,10 +145,9 @@ GLRoundedBox::GLRoundedBox(float r, float scale, int n)
                 ++vidx;
             }
         }
-
-    }
+}
 
     m_ib.unlock();
     m_vb.unlock();
 }
-
+*/

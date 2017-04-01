@@ -67,7 +67,7 @@ void ItemBase::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     if (option->state & QStyle::State_Selected) {
         painter->setRenderHint(QPainter::Antialiasing, true);
         if (option->state & QStyle::State_HasFocus)
-            painter->setPen(Qt::yellow);
+            painter->setPen(Qt::red);
         else
             painter->setPen(Qt::white);
         painter->drawRect(boundingRect());
